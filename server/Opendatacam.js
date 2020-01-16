@@ -15,6 +15,7 @@ const HTTP_REQUEST_LISTEN_TO_YOLO_RETRY_DELAY_MS = 30;
 const HTTP_REQUEST_LISTEN_TO_YOLO_MAX_RETRIES = 180 * (1000 / HTTP_REQUEST_LISTEN_TO_YOLO_RETRY_DELAY_MS);
 
 const initialState = {
+  timer: null,
   timeLastFrame: new Date(),
   currentFrame: 0,
   countedItemsHistory: [],
@@ -349,6 +350,10 @@ module.exports = {
     }
 
     let counterSummary = this.getCounterSummary();
+    if (!Opendatacam.timer)
+    {
+        Opendatacam.timer = setInterval(function(){ console.log("Hello"); }, 3000);
+    }
     let trackerSummary = this.getTrackerSummary();
 
     // console.log(Opendatacam.zombiesAreas);
