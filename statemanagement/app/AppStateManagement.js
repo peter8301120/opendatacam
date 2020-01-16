@@ -28,7 +28,7 @@ const initialState = fromJS({
     heatmapEnabled: false
   },
   isListeningToYOLO: false,
-  mode: MODE.LIVEVIEW,
+  mode: MODE.COUNTERVIEW,
   showMenu: false,
   isListeningToServerData: false,
   eventSourceServerData: null,
