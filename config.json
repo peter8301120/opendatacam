@@ -1,8 +1,8 @@
 {
   "OPENDATACAM_VERSION": "2.1.0",
-  "PATH_TO_YOLO_DARKNET" : "TO_REPLACE_PATH_TO_DARKNET",
-  "VIDEO_INPUT": "TO_REPLACE_VIDEO_INPUT",
-  "NEURAL_NETWORK": "TO_REPLACE_NEURAL_NETWORK",
+  "PATH_TO_YOLO_DARKNET" : "/home/ncsist/darknet",
+  "VIDEO_INPUT": "usbcam",
+  "NEURAL_NETWORK": "yolov3-tiny",
   "VIDEO_INPUTS_PARAMS": {
     "file": "opendatacam_videos/demo.mp4",
     "usbcam": "v4l2src device=/dev/video0 ! video/x-raw, framerate=30/1, width=640, height=360 ! videoconvert ! appsink",
