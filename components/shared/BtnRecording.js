@@ -9,6 +9,7 @@ class BtnRecording extends Component {
       this.props.dispatch(stopRecording())
     } else {
       this.props.dispatch(startRecording())
+
     }
   }
 

@@ -43,8 +43,28 @@ class MainPage extends React.PureComponent {
         {this.props.isListeningToYOLO &&
           <>
             <UIControls />
+            {this.props.showMenu &&  
+              <Menu />
+            }
+            {this.props.mode === MODE.DATAVIEW &&
+              <DataView />
+            }
+            {this.props.mode === MODE.CONSOLEVIEW &&
+              <ConsoleView />
+            }
+            {this.props.mode === MODE.LIVEVIEW &&
+              <LiveView />
+            }
             {this.props.uiSettings.get('counterEnabled') && this.props.mode === MODE.COUNTERVIEW &&
               <CounterView />
+            }
+            {/* Need to keep pathview in the DOM as it continuously renders */}
+            {this.props.uiSettings.get('pathfinderEnabled') &&
+              <PathView hidden={this.props.mode !== MODE.PATHVIEW} />
+            }
+            {/* Hide it on pathview mode */}
+            {this.props.uiSettings.get('heatmapEnabled') &&
+              <TrackerAccuracyView hidden={this.props.mode === MODE.PATHVIEW} />
             }
             <WebcamStream />
           </>
