@@ -41,7 +41,8 @@ const initialState = {
   },
   isListeningToYOLO: false,
   HTTPRequestListeningToYOLO: null,
-  HTTPRequestListeningToYOLOMaxRetries: HTTP_REQUEST_LISTEN_TO_YOLO_MAX_RETRIES
+  HTTPRequestListeningToYOLOMaxRetries: HTTP_REQUEST_LISTEN_TO_YOLO_MAX_RETRIES,
+  last_time: null
 }
 
 let Opendatacam = cloneDeep(initialState);
@@ -348,12 +349,61 @@ module.exports = {
       frameIndex: Opendatacam.currentFrame - 1,
       data: trackerDataForThisFrame
     }
+    //console.log(trackerDataForThisFrame)
+
+    /*
+    trackerDataForThisFrame.forEach(function(item, index, array){
+      now_track_x = item.x
+      now_track_y = item.y
+      trackerDataForThisFrame.forEach(function(item2, index2, array2){
+        if (index === index2)
+        {
+        }
+        else
+        {
+          dis_x = item2.x 
+          dis_y = item2.y
+          dis = Math.sqrt(Math.pow(now_track_x - dis_x, 2) + Math.pow(now_track_y - dis_y, 2))
+          console.log("object" + item.id + " position is : (" + now_track_x + "," + now_track_y + ")") 
+          console.log("object" + item2.id + " position is : (" + dis_x + "," + dis_y + ")") 
+          console.log("distance between the object" + item.id + " and object" + item2.id + " is " + dis) 
+        }
+      });
+    });
+    */
 
     let counterSummary = this.getCounterSummary();
+    Opendatacam.countData = counterSummary
     if (!Opendatacam.timer)
     {
-        Opendatacam.timer = setInterval(function(){ console.log("Hello"); }, 3000);
+        Opendatacam.timer = setInterval(function(){
+                              var now = new Date()
+                              var date = now.getFullYear() + ((now.getMonth() + 1) < 10 ? '0' : '') + (now.getMonth() + 1) + (now.getDate() < 10 ? '0' : '') + now.getDate() + (now.getHours() < 10 ? '0' : '') + now.getHours() + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes() + (now.getSeconds() < 10 ? '0' : '') + now.getSeconds() + ".log"
+                              console.log(date)
+                              var n = Object.keys(Opendatacam.countingAreas)[0]
+                              if (Opendatacam.countData[n] && Opendatacam.recordingStatus.isRecording)
+                              {
+                                var fs = require('fs');
+                                total = 0
+                                car = 0
+                                if (Opendatacam.countData[n]._total)
+                                  total = Opendatacam.countData[n]._total
+                                if (Opendatacam.countData[n].car)
+                                  car = Opendatacam.countData[n].car
+                                fs.writeFile(date, "total: " + total + ", car: " + car , function (err) {
+                                if (err)
+                                  console.log(err);
+                                else
+                                  console.log('Write operation complete.');
+                                });
+                              }
+                            }, 1000);
     }
+    //console.log(Opendatacam.countingAreas)
+    //var n = Object.keys(Opendatacam.countingAreas)[0]
+    //console.log(counterSummary[n]);
+    //console.log(Opendatacam.countingAreas[n].color)
+    //console.log(counterSummary.countingAreaKey._total);
     let trackerSummary = this.getTrackerSummary();
 
     // console.log(Opendatacam.zombiesAreas);
