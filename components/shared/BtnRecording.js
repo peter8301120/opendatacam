@@ -4,19 +4,37 @@ import { stopRecording, startRecording } from '../../statemanagement/app/AppStat
 
 class BtnRecording extends Component {
 
+  constructor(props){
+    super(props);
+  }
+  auto_record() {
+    if (!this.props.recordingStatus.isRecording) {
+      document.getElementById("btn-recording").click()
+    }
+  }
+
+  componentDidMount() {
+    this.intervalId = setInterval(this.auto_record.bind(this), 10000);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.intervalId);
+  }
+
   handleClick() {
     if(this.props.recordingStatus.isRecording) {
       this.props.dispatch(stopRecording())
-    } else {
+    } else if (!this.props.recordingStatus.isRecording && this.props.isAtLeastOneCountingAreasDefined){
       this.props.dispatch(startRecording())
-
     }
+      else {}
   }
 
   render() {
     return (
       <div className="btn-record-container">
         <div
+          id = "btn-recording"
           className="btn-record"
           onClick={() => this.handleClick()}
         >
@@ -66,6 +84,7 @@ class BtnRecording extends Component {
 
 export default connect((state) => {
   return {
+    isAtLeastOneCountingAreasDefined: state.counter.get('countingAreas').size > 0,
     recordingStatus: state.app.get('recordingStatus').toJS(),
     mode: state.app.get('mode')
   }

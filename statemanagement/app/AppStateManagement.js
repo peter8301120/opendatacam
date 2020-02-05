@@ -59,7 +59,7 @@ export function startRecording() {
     const isAtLeastOneCountingAreasDefined = getState().counter.get('countingAreas').size > 0;
     if(!isAtLeastOneCountingAreasDefined && getState().app.get('mode') === MODE.COUNTERVIEW) {
       // Go to Liveview
-      dispatch(setMode(MODE.LIVEVIEW));
+      dispatch(setMode(MODE.COUNTERVIEW));
     }
   }
 }
