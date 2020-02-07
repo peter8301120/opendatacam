@@ -246,7 +246,7 @@ module.exports = {
     const biggestTrackedItemIdThisFrame = trackerDataForThisFrame[trackerDataForThisFrame.length - 1].id;
     const nbItemsTrackedSinceRecordingStarted = biggestTrackedItemIdThisFrame - Opendatacam._refTrackedItemIdWhenRecordingStarted;
     Opendatacam.totalItemsTracked = nbItemsTrackedSinceRecordingStarted;
-  
+
     // Compute deltaYs for all tracked items (between the counting lines and the tracked items position)
     // And check if trackedItem are going through some counting areas 
     // For each new tracked item
@@ -371,14 +371,22 @@ module.exports = {
       });
     });
     */
-
+       
     let counterSummary = this.getCounterSummary();
+
+    var fs1 = require('fs');
+    var dir = './log';
+
+    if (!fs1.existsSync(dir)){
+        fs1.mkdirSync(dir);
+    }
+
     Opendatacam.countData = counterSummary
     if (!Opendatacam.timer)
     {
         Opendatacam.timer = setInterval(function(){
                               var now = new Date()
-                              var date = now.getFullYear() + ((now.getMonth() + 1) < 10 ? '0' : '') + (now.getMonth() + 1) + (now.getDate() < 10 ? '0' : '') + now.getDate() + (now.getHours() < 10 ? '0' : '') + now.getHours() + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes() + (now.getSeconds() < 10 ? '0' : '') + now.getSeconds() + ".log"
+                              var date = './log/' + now.getFullYear() + ((now.getMonth() + 1) < 10 ? '0' : '') + (now.getMonth() + 1) + (now.getDate() < 10 ? '0' : '') + now.getDate() + (now.getHours() < 10 ? '0' : '') + now.getHours() + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes() + (now.getSeconds() < 10 ? '0' : '') + now.getSeconds() + ".log"
                               console.log(date)
                               var n = Object.keys(Opendatacam.countingAreas)[0]
                               if (Opendatacam.countData[n] && Opendatacam.recordingStatus.isRecording)
